@@ -296,10 +296,10 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description='Convert Python to markdown!')
     parser.add_argument('f',
-                        help='File(s) to parse!')
+                        help='File or directory to parse!')
     parser.add_argument(
         '-d', "--docs-dir", nargs="?",
-        default=pth.Path.cwd() / 'docsTEST',
+        default=pth.Path.cwd() / 'docs',
         help=(
             "Documentation directory in which your .md files will be saved. "
             "Defaults to [cwd]/docs"
@@ -309,16 +309,16 @@ def main() -> None:
         '-p', "--just-print", action="store_true",
         # default=None,
         help=(
-            "Simply prints the results instead of creating a whole file!"
+            "Prints the results instead of creating a whole file!"
         )
     )
     parser.add_argument(
         '-s', '--save-import', nargs='?',
         # default=None,
         help=(
-            "Whether you'll want to save the imports to another file\n"
+            "Whether you'll want to save the imports to another file.\n"
             "Simply place the path of the txt file you'll want to save your "
-            "imports too"
+            "imports to"
         )
     )
     parser.add_argument(
@@ -364,7 +364,7 @@ def _make_path_sane(path: str) -> pth.Path:
     return proper_path
 
 
-if __name__ == '_main_':
+if __name__ == '__main__':
     import sys
     if not sys.flags.interactive:
         main()
