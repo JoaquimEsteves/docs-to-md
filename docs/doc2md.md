@@ -28,12 +28,12 @@ Parse Python source code and get or print docstrings.
 ### Function 'yield_docstrings'
 line 45
 
-python
+```python
 def yield_docstrings(
     source: t.Union[t.IO[str], str], module: str = '<string>',
     import_file: t.Optional[t.IO[str]] = None
 ) -> t.Iterator[str]:
-
+```
 Parse Python source code from file or string and print docstrings.
 
 For each class, method/function and module, the function prints a heading with
@@ -50,11 +50,11 @@ Output is ordered by line number :)
 ### Function 'parse_docstrings'
 line 92
 
-python
+```python
 def parse_docstrings(
     source: t.Union[str], import_file: t.Optional[t.IO[str]] = None
 ) -> t.Iterator[t.Tuple[ast.AST, t.Any, int, str]]:
-
+```
 Parse Python source code and yield a tuple of ast node instance, name,
 line number and docstring for each function/method, class and module.
 
@@ -64,7 +64,7 @@ block, and docstring is None.
 
 
 Tests:
-python
+```python
 Example string with inner functions, classes, and module documentation!
 >>> example_string='''""" Module documentation """
 ... from whatever import *
@@ -113,47 +113,50 @@ Example string with inner functions, classes, and module documentation!
 (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
 (<_ast.FunctionDef object at ...>, 'aze', 29, ...')
 
+```
+
 ### Function 'get_imports'
 line 192
 
-python
+```python
 def get_imports(
     node: ast.AST, file_to_save: t.Optional[t.IO[str]] = None
 ) -> t.Iterator[t.Tuple[ImportNode, t.Any, int, str]]:
-
+```
 Handles the special case Import case
 
 Simply yields the imported modes.
 
 If node is like:
 
-python
+```python
 
 >>> node1 = 'Import os'
 >>> node2 = 'From yo.yoyo.aze import whatever'
 
+```
 
 We'll yield 'os' and 'yo.yoyo.aze'
 
 ### Function 'main'
-line 223
+line 224
 
-python
+```python
 def main() -> None:
-
+```
 **UNDOCUMENTED**
 
 ### Function '_mini_main'
-line 229
+line 230
 
-python
+```python
 def _mini_main(
     file_to_analyse: pth.Path,
     just_print: bool,
     save_import: t.Optional[str],
     docs_dir: pth.Path,
 ) -> None:
-
+```
 main handles the argparse and all those shenanigans.
 _mini_main does the _actual_ function calls and opening of the
 files.
@@ -166,18 +169,18 @@ It's also useful to note, since people read code top to bottom,
 and this is the actual 'workhorse' function
 
 ### Function '_glob_py_dirs'
-line 272
+line 273
 
-python
+```python
 def _glob_py_dirs(
-
+```
 **UNDOCUMENTED**
 
 ### Function '_make_path_sane'
-line 354
+line 355
 
-python
+```python
 def _make_path_sane(path: str) -> pth.Path:
-
+```
 Simple function that converts a path to a Pure (absolute) Path.
 If the path isn't absolute, program assumes cwd()
