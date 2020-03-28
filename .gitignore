@@ -1,0 +1,3 @@
+# Ignore the usual crap
+.vscode/
+.mypy_cache/
