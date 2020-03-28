@@ -99,7 +99,7 @@ def parse_docstrings(
 
 
     Tests:
-    python
+    ```python
     Example string with inner functions, classes, and module documentation!
     >>> example_string='''\""" Module documentation \"""
     ... from whatever import *
@@ -147,8 +147,8 @@ def parse_docstrings(
     (<_ast.FunctionDef object at ...>, 'sub_yo', 23, ...')
     (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
     (<_ast.FunctionDef object at ...>, 'aze', 29, ...')
-
-
+    
+    ```
     """
     tree = ast.parse(source)
     source_lines: t.List[str] = source.splitlines()
@@ -180,7 +180,7 @@ def parse_docstrings(
                     function_declaration = source_lines[node.lineno - 1:lineno]
                 _function = dedent('\n'.join(function_declaration))
                 docstring = (
-                    f"python\n{_function}\n\n"
+                    f"```python\n{_function}\n```\n"
                     f"{docstring}"
                 )
             yield (node, getattr(node, 'name', None), lineno, docstring)
@@ -196,11 +196,12 @@ def get_imports(
 
         If node is like:
 
-        python
+        ```python
 
         >>> node1 = 'Import os'
         >>> node2 = 'From yo.yoyo.aze import whatever'
 
+        ```
 
         We'll yield 'os' and 'yo.yoyo.aze'
 
