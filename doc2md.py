@@ -76,13 +76,18 @@ def yield_docstrings(
         _NODE_TYPES[type(tpl[0])]
     ))
 
+    first_import = True
+
     for type_, group in grouped:
         for _node, name, lineno, docstring in group:
             name = name if name else module
             if type_ == _NODE_TYPES[ast.Module]:
                 yield f"{type_} '{name}'\n"
             elif type_ in (_NODE_TYPES[ast.ImportFrom], _NODE_TYPES[ast.Import]):
-                yield f"{type_} '{name}'"
+                if first_import:
+                    first_import = False
+                    yield "## Imports\n"
+                yield f"* {name}"
             else:
                 yield f"{type_} '{name}'\nline {lineno or '?'}\n\n"
             yield f"{docstring}\n" or '\n'
@@ -91,65 +96,65 @@ def yield_docstrings(
 def parse_docstrings(
     source: t.Union[str], import_file: t.Optional[t.IO[str]] = None
 ) -> t.Iterator[t.Tuple[ast.AST, t.Any, int, str]]:
-    """Parse Python source code and yield a tuple of ast node instance, name,
-    line number and docstring for each function/method, class and module.
+    """ Parse Python source code and yield a tuple of ast node instance, name,
+        line number and docstring for each function/method, class and module.
 
-    The line number refers to the first line of the docstring. If there is
-    no docstring, it gives the first line of the class, funcion or method
-    block, and docstring is None.
+        The line number refers to the first line of the docstring. If there is
+        no docstring, it gives the first line of the class, funcion or method
+        block, and docstring is None.
 
 
-    Tests:
-    ```python
-    Example string with inner functions, classes, and module documentation!
-    >>> example_string='''\""" Module documentation \"""
-    ... from whatever import *
-    ... from aze.aze.aze import lel
-    ... import os
-    ... import sys
-    ... def here_is_cool(
-    ...     a: str
-    ... ) -> t[
-    ...     azeaze,
-    ...     azeaze
-    ... ]:
-    ...     \""" typical docstring
-    ...         - Args:
-    ...             - a (str): example_input
-    ...         - Returns:
-    ...             - t[azeaze,azeaze]: Example of complicated return type
-    ...     \"""
-    ...
-    ...     cache = {}
-    ...     \""" doesn't care about docstrings not in class/function
-    ...     \"""
-    ...
-    ...     def sub_yo(aze: str):
-    ...         \""" sub function\"""
-    ...
-    ...     class Blarg:
-    ...         \""" sub class \"""
-    ...
-    ...         def aze(self, a):
-    ...             \""" sub-function of subclass \"""
-    ...             ...
-    ...
-    ...
-    ... def undocumented_function(aze):
-    ...     pass'''
-    >>> for i in parse_docstrings(example_string): print(i)
-    (<_ast.Module object at ...>, None, 0, 'Module documentation ')
-    (<_ast.ImportFrom object at ...>, 'whatever', 0, '')
-    (<_ast.ImportFrom object at ...>, 'aze.aze.aze', 0, '')
-    (<_ast.Import object at ...>, 'os', 0, '')
-    (<_ast.Import object at ...>, 'sys', 0, '')
-    (<_ast.FunctionDef object at ...>, 'here_is_cool', 11, ...')
-    (<_ast.FunctionDef object at ...>, 'undocumented_function', 34, ...')
-    (<_ast.FunctionDef object at ...>, 'sub_yo', 23, ...')
-    (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
-    (<_ast.FunctionDef object at ...>, 'aze', 29, ...')
-    
-    ```
+        Tests:
+        ```python
+        Example string with inner functions, classes, and module documentation!
+        >>> example_string='''\""" Module documentation \"""
+        ... from whatever import *
+        ... from aze.aze.aze import lel
+        ... import os
+        ... import sys
+        ... def here_is_cool(
+        ...     a: str
+        ... ) -> t[
+        ...     azeaze,
+        ...     azeaze
+        ... ]:
+        ...     \""" typical docstring
+        ...         - Args:
+        ...             - a (str): example_input
+        ...         - Returns:
+        ...             - t[azeaze,azeaze]: Example of complicated return type
+        ...     \"""
+        ...
+        ...     cache = {}
+        ...     \""" doesn't care about docstrings not in class/function
+        ...     \"""
+        ...
+        ...     def sub_yo(aze: str):
+        ...         \""" sub function\"""
+        ...
+        ...     class Blarg:
+        ...         \""" sub class \"""
+        ...
+        ...         def aze(self, a):
+        ...             \""" sub-function of subclass \"""
+        ...             ...
+        ...
+        ...
+        ... def undocumented_function(aze):
+        ...     pass'''
+        >>> for i in parse_docstrings(example_string): print(i)
+        (<_ast.Module object at ...>, None, 0, 'Module documentation ')
+        (<_ast.ImportFrom object at ...>, 'whatever', 0, '')
+        (<_ast.ImportFrom object at ...>, 'aze.aze.aze', 0, '')
+        (<_ast.Import object at ...>, 'os', 0, '')
+        (<_ast.Import object at ...>, 'sys', 0, '')
+        (<_ast.FunctionDef object at ...>, 'here_is_cool', 11, ...')
+        (<_ast.FunctionDef object at ...>, 'undocumented_function', 34, ...')
+        (<_ast.FunctionDef object at ...>, 'sub_yo', 23, ...')
+        (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
+        (<_ast.FunctionDef object at ...>, 'aze', 29, ...')
+
+        ```
     """
     tree = ast.parse(source)
     source_lines: t.List[str] = source.splitlines()
@@ -159,26 +164,19 @@ def parse_docstrings(
             docstring = ast.get_docstring(
                 node, clean=True) or '**UNDOCUMENTED**'
             lineno = getattr(node, 'lineno', 0)
-            if (node.body and isinstance(node.body[0], ast.Expr) and
-                    isinstance(node.body[0].value, ast.Str)):
-                # If the body is an expression, we gotta do some tweaking
-                # of the lineno
-                # this is to accommodate:
+            if isinstance(node, tuple(_FUNCTION_TYPES)):
+                # We're dealing with a function here!
+                # Let's append its declaration here as python markdown
+                # We tweak the line number to accomodate functions like:
                 # def multiline(
                 #     declaration,
                 #     s,
                 # ) -> something:
-                lineno = (node.body[0].lineno
-                          - len(node.body[0].value.s.splitlines()))
-            if isinstance(node, tuple(_FUNCTION_TYPES)):
-                # We're dealing with a function here!
-                # Let's append its declaration here as python markdown
-                # We tweak the line number, for reasons similar to the
-                # ones explained previously
+                lineno = node.body[0].lineno
                 if node.lineno == lineno:
                     function_declaration = source_lines[lineno - 1:lineno]
                 else:
-                    function_declaration = source_lines[node.lineno - 1:lineno]
+                    function_declaration = source_lines[node.lineno - 1:lineno - 1]
                 _function = dedent('\n'.join(function_declaration))
                 docstring = (
                     f"```python\n{_function}\n```\n"
@@ -276,9 +274,7 @@ def main() -> None:
         original_docs_dir: pth.Path,
     ) -> t.Iterator[t.Tuple[pth.Path, pth.Path]]:
         from glob import iglob
-        from itertools import repeat, chain
-        # We give it a spinner, as this'll take a while...
-        spinner = repeat('|/-\\')
+        from itertools import chain
         python_files = dir_to_analyse.rglob('*.py')
         print(
             "I'm about to parse the following for python files"
@@ -291,10 +287,8 @@ def main() -> None:
             return  # typing: ignore
         python_files = dir_to_analyse.rglob('*.py')
         for python_file in python_files:
-            sys.stdout.write(next(spinner))
+            print(f"Converting {python_file}")
             yield python_file, original_docs_dir / python_file.parent
-            sys.stdout.flush()
-            sys.stdout.write('\b')
 
     parser = argparse.ArgumentParser(description='Convert Python to markdown!')
     parser.add_argument('f',
