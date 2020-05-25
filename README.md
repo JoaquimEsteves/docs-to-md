@@ -33,8 +33,8 @@ Running `python3 -m docs2md.py .` will produce the following:
 ├── docs
 │   ├── foo.md
 │   └── blahbla
-│       ├── __init__.py
-│       └── blahblah.py
+│       ├── __init__.md
+│       └── blahblah.md
 ├── foo.py
 ├── blahbla
 │   ├── __init__.py
