@@ -1,4 +1,4 @@
-# doc2md
+# docs2md
 
 Automatically parse python docstrings and convert them to markdown!
 
