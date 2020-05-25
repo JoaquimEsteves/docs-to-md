@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="docs2md",
-    version="1.0.0",
+    version="1.0.1",
     author="Joaquim Esteves",
     author_email="joaquimbve@hotmail.com",
     description="Automatically parse python docstrings and convert them to markdown!",
