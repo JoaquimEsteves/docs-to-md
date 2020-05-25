@@ -148,11 +148,11 @@ def parse_docstrings(
         (<_ast.ImportFrom object at ...>, 'aze.aze.aze', 0, '')
         (<_ast.Import object at ...>, 'os', 0, '')
         (<_ast.Import object at ...>, 'sys', 0, '')
-        (<_ast.FunctionDef object at ...>, 'here_is_cool', 11, ...')
-        (<_ast.FunctionDef object at ...>, 'undocumented_function', 34, ...')
-        (<_ast.FunctionDef object at ...>, 'sub_yo', 23, ...')
+        (<_ast.FunctionDef object at ...>, 'here_is_cool', 12, ...')
+        (<_ast.FunctionDef object at ...>, 'undocumented_function', 35, ...')
+        (<_ast.FunctionDef object at ...>, 'sub_yo', 24, ...')
         (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
-        (<_ast.FunctionDef object at ...>, 'aze', 29, ...')
+        (<_ast.FunctionDef object at ...>, 'aze', 30, ...')
 
         ```
     """
