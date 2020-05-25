@@ -1,32 +1,21 @@
-
-Imports 'ast'
-
-Imports 'itertools'
-
-Imports 'os.path'
-
-Imports 'typing'
-
-Imports 'pathlib'
-
-Imports 'argparse'
-
-Imports 'contextlib'
-
-Imports 'textwrap'
-
-Imports 'doctest'
-
-Imports 'sys'
-
-Imports 'glob'
-
-Imports 'itertools'
 # Module 'doc2md'
 Parse Python source code and get or print docstrings.
+## Imports
+* ast
+* sys
+* itertools
+* os.path
+* typing
+* pathlib
+* argparse
+* contextlib
+* textwrap
+* doctest
+* glob
+* itertools
 
 ### Function 'yield_docstrings'
-line 45
+line 47
 
 ```python
 def yield_docstrings(
@@ -48,7 +37,7 @@ or the first line of the class, funcion or method block, if there is none.
 Output is ordered by line number :)
 
 ### Function 'parse_docstrings'
-line 92
+line 99
 
 ```python
 def parse_docstrings(
@@ -169,15 +158,18 @@ It's also useful to note, since people read code top to bottom,
 and this is the actual 'workhorse' function
 
 ### Function '_glob_py_dirs'
-line 273
+line 276
 
 ```python
 def _glob_py_dirs(
+    dir_to_analyse: pth.Path,
+    original_docs_dir: pth.Path,
+) -> t.Iterator[t.Tuple[pth.Path, pth.Path]]:
 ```
 **UNDOCUMENTED**
 
 ### Function '_make_path_sane'
-line 355
+line 351
 
 ```python
 def _make_path_sane(path: str) -> pth.Path:
