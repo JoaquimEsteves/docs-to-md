@@ -2,9 +2,13 @@
 
 Automatically parse python docstrings and convert them to markdown!
 
+## Installing
+
+`pip install` and you're good to go!
+
 ## Instructions
 
-Simply run the `doc2md.py` from the command line to interact with the ol' main function.
+Simply run the `docs2md.py` from the command line to interact with the ol' main function.
 
 Note: Program uses f-strings, as such python `3.6` or above is required.
 
@@ -39,7 +43,7 @@ As such, assuming you'll have a folder structure like so:
 └── README.md
 ```
 
-Running `python3 doc2md.py .` will produce the following:
+Running `python3 -m docs2md.py .` will produce the following:
 
 ```
 .
