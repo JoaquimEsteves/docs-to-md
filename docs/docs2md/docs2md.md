@@ -1,4 +1,4 @@
-# Module 'doc2md'
+# Module 'docs2md'
 Parse Python source code and get or print docstrings.
 ## Imports
 * ast
@@ -6,16 +6,10 @@ Parse Python source code and get or print docstrings.
 * itertools
 * os.path
 * typing
-* pathlib
-* argparse
-* contextlib
 * textwrap
-* doctest
-* glob
-* itertools
 
 ### Function 'yield_docstrings'
-line 47
+line 43
 
 ```python
 def yield_docstrings(
@@ -37,7 +31,7 @@ or the first line of the class, funcion or method block, if there is none.
 Output is ordered by line number :)
 
 ### Function 'parse_docstrings'
-line 99
+line 95
 
 ```python
 def parse_docstrings(
@@ -96,16 +90,16 @@ Example string with inner functions, classes, and module documentation!
 (<_ast.ImportFrom object at ...>, 'aze.aze.aze', 0, '')
 (<_ast.Import object at ...>, 'os', 0, '')
 (<_ast.Import object at ...>, 'sys', 0, '')
-(<_ast.FunctionDef object at ...>, 'here_is_cool', 11, ...')
-(<_ast.FunctionDef object at ...>, 'undocumented_function', 34, ...')
-(<_ast.FunctionDef object at ...>, 'sub_yo', 23, ...')
+(<_ast.FunctionDef object at ...>, 'here_is_cool', 12, ...')
+(<_ast.FunctionDef object at ...>, 'undocumented_function', 35, ...')
+(<_ast.FunctionDef object at ...>, 'sub_yo', 24, ...')
 (<_ast.ClassDef object at ...>, 'Blarg', 26, 'sub class ')
-(<_ast.FunctionDef object at ...>, 'aze', 29, ...')
+(<_ast.FunctionDef object at ...>, 'aze', 30, ...')
 
 ```
 
 ### Function 'get_imports'
-line 192
+line 188
 
 ```python
 def get_imports(
@@ -126,53 +120,3 @@ If node is like:
 ```
 
 We'll yield 'os' and 'yo.yoyo.aze'
-
-### Function 'main'
-line 224
-
-```python
-def main() -> None:
-```
-**UNDOCUMENTED**
-
-### Function '_mini_main'
-line 230
-
-```python
-def _mini_main(
-    file_to_analyse: pth.Path,
-    just_print: bool,
-    save_import: t.Optional[str],
-    docs_dir: pth.Path,
-) -> None:
-```
-main handles the argparse and all those shenanigans.
-_mini_main does the _actual_ function calls and opening of the
-files.
-
-We separate the concerns just so we can handle the case in which
-main receives a directory with python files instead of a simple
-`.py`
-
-It's also useful to note, since people read code top to bottom,
-and this is the actual 'workhorse' function
-
-### Function '_glob_py_dirs'
-line 276
-
-```python
-def _glob_py_dirs(
-    dir_to_analyse: pth.Path,
-    original_docs_dir: pth.Path,
-) -> t.Iterator[t.Tuple[pth.Path, pth.Path]]:
-```
-**UNDOCUMENTED**
-
-### Function '_make_path_sane'
-line 351
-
-```python
-def _make_path_sane(path: str) -> pth.Path:
-```
-Simple function that converts a path to a Pure (absolute) Path.
-If the path isn't absolute, program assumes cwd()
