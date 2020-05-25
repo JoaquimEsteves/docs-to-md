@@ -4,6 +4,7 @@
 __all__ = ("yield_docstrings", "parse_docstrings", "get_imports", "main",)
 
 import ast
+import sys
 
 from itertools import groupby
 from os.path import basename, splitext
@@ -366,6 +367,5 @@ def _make_path_sane(path: str) -> pth.Path:
 
 
 if __name__ == '__main__':
-    import sys
     if not sys.flags.interactive:
         main()
