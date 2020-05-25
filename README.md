@@ -6,6 +6,8 @@ Automatically parse python docstrings and convert them to markdown!
 
 `pip install` and you're good to go!
 
+https://pypi.org/project/docs2md/
+
 ## Instructions
 
 Simply run the `docs2md.py` from the command line to interact with the ol' main function.
