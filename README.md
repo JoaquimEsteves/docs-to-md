@@ -14,26 +14,7 @@ Simply run the `docs2md.py` from the command line to interact with the ol' main 
 
 Note: Program uses f-strings, as such python `3.6` or above is required.
 
-The command line arguments are as follow:
-
-```bash
-positional arguments:
-  f                     File or directory to parse!
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -d [DOCS_DIR], --docs-dir [DOCS_DIR]
-                        Documentation directory in which your .md files will
-                        be saved. Defaults to [cwd]/docs
-  -p, --just-print      Prints the results instead of creating a whole file!
-  -s [SAVE_IMPORT], --save-import [SAVE_IMPORT]
-                        Whether you'll want to save the imports to another
-                        file. Simply place the path of the txt file you'll
-                        want to save your imports to
-  --test                Runs doctest!
-```
-
-As such, assuming you'll have a folder structure like so:
+Assuming you'll have a folder structure like so:
 
 ```
 .
@@ -60,6 +41,25 @@ Running `python3 -m docs2md.py .` will produce the following:
 │   └── blahblah.py
 ├── LICENSE
 └── README.md
+```
+
+The command line arguments are as follow:
+
+```bash
+positional arguments:
+  f                     File or directory to parse!
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d [DOCS_DIR], --docs-dir [DOCS_DIR]
+                        Documentation directory in which your .md files will
+                        be saved. Defaults to [cwd]/docs
+  -p, --just-print      Prints the results instead of creating a whole file!
+  -s [SAVE_IMPORT], --save-import [SAVE_IMPORT]
+                        Whether you'll want to save the imports to another
+                        file. Simply place the path of the txt file you'll
+                        want to save your imports to
+  --test                Runs doctest!
 ```
 
 ### How does this work anyway?
