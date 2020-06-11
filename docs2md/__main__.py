@@ -1,3 +1,5 @@
+""" Handles argument parsing and file shenanigans
+"""
 import pathlib as pth
 import argparse
 from contextlib import ExitStack
@@ -49,19 +51,14 @@ def main() -> None:
             fp = ε(open(file_to_analyse, 'r', encoding='utf-8'))
             import_fl = None
             if save_import:
-                import_fl = ε(
-                    open(_make_path_sane(save_import), 'a+', encoding='utf-8')
-                )
+                import_fl = ε(open(_make_path_sane(save_import), 'a+', encoding='utf-8'))
                 import_first_line = (f'\n┌{file_to_analyse} IMPORTS\n')
                 import_fl.write(import_first_line)
             if just_print:
                 for line in yield_docstrings(fp, import_file=import_fl):
                     print(line)
             else:
-                md = ε(
-                    open(f'{docs_dir}/{file_to_analyse.stem}.md',
-                         'w', encoding='utf-8')
-                )
+                md = ε(open(f'{docs_dir}/{file_to_analyse.stem}.md', 'w', encoding='utf-8'))
                 for line in yield_docstrings(fp, import_file=import_fl):
                     md.write(line)
             if import_fl:
@@ -74,12 +71,10 @@ def main() -> None:
         dir_to_analyse: pth.Path,
         original_docs_dir: pth.Path,
     ) -> t.Iterator[t.Tuple[pth.Path, pth.Path]]:
-        from glob import iglob
-        from itertools import chain
+        """ Globs a directory, looking for .py files """
+
         python_files = dir_to_analyse.rglob('*.py')
-        print(
-            "I'm about to parse the following for python files"
-        )
+        print("I'm about to parse the following for python files")
         for i in python_files:
             print(i)
         inpt = input('Are you sure you want to continue? Y - for yes\n')
