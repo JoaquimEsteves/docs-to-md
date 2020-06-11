@@ -64,12 +64,16 @@ def yield_docstrings(
         # ie yield_docstrings('def (a:aze) -> None:...')
         actual_source = t.cast(str, source)
     # get the docstrings, and sort them by line number
-    iter_docstrings = sorted(
-        parse_docstrings(actual_source, import_file),
-        key=lambda x: x[2])
-    grouped = groupby(iter_docstrings, key=lambda tpl: (
-        _NODE_TYPES[type(tpl[0])]
-    ))
+    _line_number = 2
+    _ast_node = 0
+    grouped = groupby(
+        sorted(
+            parse_docstrings(actual_source, import_file),
+            key=lambda x: x[_line_number]
+        ),
+        key=lambda tpl: _NODE_TYPES[type(tpl[_ast_node])]    # type: ignore
+        # (mypy gets easily confused with lambdas)
+    )
 
     first_import = True
 
@@ -156,8 +160,7 @@ def parse_docstrings(
     for n in ast.walk(tree):
         if isinstance(n, tuple(_DECLARE_TYPES)):
             node: Node = t.cast(Node, n)
-            docstring = ast.get_docstring(
-                node, clean=True) or '**UNDOCUMENTED**'
+            docstring = ast.get_docstring(node, clean=True) or '**UNDOCUMENTED**'
             lineno = getattr(node, 'lineno', 0)
             if isinstance(node, tuple(_FUNCTION_TYPES)):
                 # We're dealing with a function here!
