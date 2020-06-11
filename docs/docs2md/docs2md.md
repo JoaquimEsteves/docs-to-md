@@ -2,14 +2,13 @@
 Parse Python source code and get or print docstrings.
 ## Imports
 * ast
-* sys
 * itertools
 * os.path
 * typing
 * textwrap
 
 ### Function 'yield_docstrings'
-line 43
+line 42
 
 ```python
 def yield_docstrings(
@@ -19,19 +18,19 @@ def yield_docstrings(
 ```
 Parse Python source code from file or string and print docstrings.
 
-For each class, method/function and module, the function prints a heading with
-the type, name and line number and then the docstring with normalized
+For each class, method/function and module, the function prints a heading
+with the type, name and line number and then the docstring with normalized
 indentation.
 
-The module name is determined from the filename, or, if the source is passed
-as a string, from the optional `module` argument.
+The module name is determined from the filename, or, if the source is
+passed as a string, from the optional `module` argument.
 
 The line number refers to the first line of the docstring, if present,
 or the first line of the class, funcion or method block, if there is none.
 Output is ordered by line number :)
 
 ### Function 'parse_docstrings'
-line 95
+line 94
 
 ```python
 def parse_docstrings(
@@ -99,7 +98,7 @@ Example string with inner functions, classes, and module documentation!
 ```
 
 ### Function 'get_imports'
-line 188
+line 187
 
 ```python
 def get_imports(
