@@ -2,7 +2,6 @@
 """Parse Python source code and get or print docstrings."""
 
 import ast
-import sys
 
 from itertools import groupby
 from os.path import basename, splitext
@@ -42,12 +41,12 @@ def yield_docstrings(
 ) -> t.Iterator[str]:
     """ Parse Python source code from file or string and print docstrings.
 
-    For each class, method/function and module, the function prints a heading with
-    the type, name and line number and then the docstring with normalized
+    For each class, method/function and module, the function prints a heading
+    with the type, name and line number and then the docstring with normalized
     indentation.
 
-    The module name is determined from the filename, or, if the source is passed
-    as a string, from the optional `module` argument.
+    The module name is determined from the filename, or, if the source is
+    passed as a string, from the optional `module` argument.
 
     The line number refers to the first line of the docstring, if present,
     or the first line of the class, funcion or method block, if there is none.
