@@ -30,7 +30,7 @@ or the first line of the class, funcion or method block, if there is none.
 Output is ordered by line number :)
 
 ### Function 'parse_docstrings'
-line 94
+line 98
 
 ```python
 def parse_docstrings(
@@ -98,7 +98,7 @@ Example string with inner functions, classes, and module documentation!
 ```
 
 ### Function 'get_imports'
-line 187
+line 190
 
 ```python
 def get_imports(

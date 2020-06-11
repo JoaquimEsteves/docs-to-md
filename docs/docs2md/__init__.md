@@ -1,4 +1,4 @@
 # Module '__init__'
-**UNDOCUMENTED**
+Simply declares the `__all__` variable
 ## Imports
 * docs2md

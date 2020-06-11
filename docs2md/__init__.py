@@ -1,3 +1,5 @@
+""" Simply declares the `__all__` variable
+"""
 from .docs2md import *
 
 
